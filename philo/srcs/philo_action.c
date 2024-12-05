@@ -6,7 +6,7 @@
 /*   By: miwasa <miwasa@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/05 11:10:11 by miwasa            #+#    #+#             */
-/*   Updated: 2024/12/05 12:58:41 by miwasa           ###   ########.fr       */
+/*   Updated: 2024/12/05 13:49:43 by miwasa           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,19 +32,19 @@ void	philo_put_forks(t_philosopher *self)
 	pthread_mutex_unlock(&params->forks[self->right_fork_id]);
 }
 
-void	philo_eat(t_philosopher *self)
+void	philo_eat(t_philosopher *philo)
 {
 	t_params	*params;
 
-	params = self->params;
-	pthread_mutex_lock(&params->print_mutex);
-	self->last_meal_time = get_timestamp();
-	print_action(params, self->id, "is eating");
-	pthread_mutex_unlock(&params->print_mutex);
-
+	params = philo->params;
+	pthread_mutex_lock(&params->meal_time_mutex);
+	philo->last_meal_time = get_timestamp();
+	pthread_mutex_unlock(&params->meal_time_mutex);
+	print_action(params, philo->id, "is eating");
 	sleep_ms(params->time_to_eat);
-	self->meals_eaten++;
+	philo->meals_eaten++;
 }
+
 
 void	philo_sleep(t_philosopher *self)
 {

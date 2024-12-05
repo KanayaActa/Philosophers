@@ -6,7 +6,7 @@
 /*   By: miwasa <miwasa@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/05 11:46:50 by miwasa            #+#    #+#             */
-/*   Updated: 2024/12/05 12:32:27 by miwasa           ###   ########.fr       */
+/*   Updated: 2024/12/05 13:47:21 by miwasa           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,3 +28,4 @@ void sleep_ms(int milliseconds)
 	while (get_timestamp() - start_time < milliseconds)
 		usleep(100);
 }
+

@@ -6,7 +6,7 @@
 /*   By: miwasa <miwasa@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/04 22:04:58 by miwasa            #+#    #+#             */
-/*   Updated: 2024/12/05 12:35:45 by miwasa           ###   ########.fr       */
+/*   Updated: 2024/12/05 13:41:37 by miwasa           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,6 +46,7 @@ typedef struct s_params
 	long long		start_time;
 	pthread_mutex_t	*forks;
 	pthread_mutex_t	print_mutex;
+	pthread_mutex_t meal_time_mutex; 
 	t_philosopher	*philosophers;
 	int				someone_died;
 }	t_params;
