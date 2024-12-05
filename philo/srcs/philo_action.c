@@ -6,7 +6,7 @@
 /*   By: miwasa <miwasa@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/05 11:10:11 by miwasa            #+#    #+#             */
-/*   Updated: 2024/12/05 13:49:43 by miwasa           ###   ########.fr       */
+/*   Updated: 2024/12/05 20:35:16 by miwasa           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,19 +32,45 @@ void	philo_put_forks(t_philosopher *self)
 	pthread_mutex_unlock(&params->forks[self->right_fork_id]);
 }
 
-void	philo_eat(t_philosopher *philo)
-{
-	t_params	*params;
+// void	philo_eat(t_philosopher *philo)
+// {
+// 	t_params	*params;
 
-	params = philo->params;
+// 	params = philo->params;
+// 	pthread_mutex_lock(&params->meal_time_mutex);
+// 	philo->last_meal_time = get_timestamp();
+// 	pthread_mutex_unlock(&params->meal_time_mutex);
+// 	print_action(params, philo->id, "is eating");
+// 	sleep_ms(params->time_to_eat);
+// 	philo->meals_eaten++;
+// }
+
+void philo_eat(t_philosopher *philo)
+{
+	t_params *params = philo->params;
+
+	// meal_time_mutexで保護
 	pthread_mutex_lock(&params->meal_time_mutex);
 	philo->last_meal_time = get_timestamp();
-	pthread_mutex_unlock(&params->meal_time_mutex);
-	print_action(params, philo->id, "is eating");
-	sleep_ms(params->time_to_eat);
 	philo->meals_eaten++;
-}
 
+	// 指定回数の食事を終えた場合
+	if (params->number_of_times_each_philosopher_must_eat != -1 &&
+		philo->meals_eaten == params->number_of_times_each_philosopher_must_eat)
+	{
+		pthread_mutex_lock(&params->finish_mutex);
+		params->philosophers_finished++;
+		pthread_mutex_unlock(&params->finish_mutex);
+	}
+	pthread_mutex_unlock(&params->meal_time_mutex);
+
+	print_action(params, philo->id, "is eating");
+
+	sleep_ms(params->time_to_eat);
+
+	// デバッグログ
+	// printf("Philosopher %d has finished eating\n", philo->id);
+}
 
 void	philo_sleep(t_philosopher *self)
 {

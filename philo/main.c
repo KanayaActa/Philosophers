@@ -6,7 +6,7 @@
 /*   By: miwasa <miwasa@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/04 21:50:58 by miwasa            #+#    #+#             */
-/*   Updated: 2024/12/05 11:51:43 by miwasa           ###   ########.fr       */
+/*   Updated: 2024/12/05 16:28:51 by miwasa           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,6 +14,5 @@
 
 int	main(int argc, char **argv)
 {
-	philo(argc, argv);
-	return (0);
+	return (philo(argc, argv));
 }

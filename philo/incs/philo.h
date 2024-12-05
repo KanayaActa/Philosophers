@@ -6,7 +6,7 @@
 /*   By: miwasa <miwasa@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/04 22:04:58 by miwasa            #+#    #+#             */
-/*   Updated: 2024/12/05 13:41:37 by miwasa           ###   ########.fr       */
+/*   Updated: 2024/12/05 20:31:40 by miwasa           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,9 +46,13 @@ typedef struct s_params
 	long long		start_time;
 	pthread_mutex_t	*forks;
 	pthread_mutex_t	print_mutex;
-	pthread_mutex_t meal_time_mutex; 
+	pthread_mutex_t	meal_time_mutex; 
 	t_philosopher	*philosophers;
 	int				someone_died;
+
+	int                 philosophers_finished;       // 指定回数の食事を終えた哲学者の数
+	int                 all_philosophers_finished; // 全員が食事を終えたかどうかのフラグ
+    pthread_mutex_t     finish_mutex;
 }	t_params;
 
 // void		philo(int argc, char **argv);

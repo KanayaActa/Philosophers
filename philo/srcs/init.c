@@ -6,7 +6,7 @@
 /*   By: miwasa <miwasa@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/05 12:29:01 by miwasa            #+#    #+#             */
-/*   Updated: 2024/12/05 16:27:13 by miwasa           ###   ########.fr       */
+/*   Updated: 2024/12/05 20:32:06 by miwasa           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,6 +32,9 @@ int	init_simulation(t_params *params)
 
 	init_philosophers(params);
 	params->someone_died = 0;
+	params->philosophers_finished = 0; // 初期化
+	params->all_philosophers_finished = 0;
+	pthread_mutex_init(&params->finish_mutex, NULL);
 	return (0);
 }
 
