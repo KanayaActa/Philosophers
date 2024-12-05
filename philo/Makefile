@@ -6,7 +6,7 @@
 #    By: miwasa <miwasa@student.42.fr>              +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/12/04 21:45:43 by miwasa            #+#    #+#              #
-#    Updated: 2024/12/05 10:25:49 by miwasa           ###   ########.fr        #
+#    Updated: 2024/12/05 12:47:12 by miwasa           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -19,10 +19,19 @@ MAIN		:= ./main.c
 LIBS		:= -pthread
 
 CC			:= cc
-CFLAGS		:= -Wall -Wextra -Werror -I$(INCS_DIR)
+CFLAGS		:= -Wall -Wextra -Werror -I$(INCS_DIR) -g
 
 SRCS		:= \
-	philo.c
+	philo.c \
+	cleanup.c \
+	init.c \
+	monitor_philo.c \
+	parse_arguments.c \
+	philo_action.c \
+	philo_routine.c \
+	start_simulation.c \
+	print_action.c \
+	utils.c
 
 OBJS		:= $(addprefix $(OBJS_DIR)/, $(SRCS:.c=.o)) \
 				$(OBJS_DIR)/main.o

@@ -1,36 +1,24 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   philo.c                                            :+:      :+:    :+:   */
+/*   cleanup.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: miwasa <miwasa@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/12/04 22:05:56 by miwasa            #+#    #+#             */
-/*   Updated: 2024/12/05 12:27:01 by miwasa           ###   ########.fr       */
+/*   Created: 2024/12/05 12:32:55 by miwasa            #+#    #+#             */
+/*   Updated: 2024/12/05 12:33:22 by miwasa           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "philo.h"
 
-int	philo(int argc, char **argv)
+void cleanup(t_params *params)
 {
-	t_params	params;
+	int	i;
 
-	if (parse_arguments(argc, argv, &params) != 0)
-	{
-		printf("Invalid arguments\n");
-		return (1);
-	}
-	if (init_simulation(&params) != 0)
-	{
-		printf("Failed to initialize simulation\n");
-		return (1);
-	}
-	if (start_simulation(&params) != 0)
-	{
-		printf("Failed to start simulation\n");
-		return (1);
-	}
-	cleanup(&params);
-	return (0);
+	for (i = 0; i < params->number_of_philosophers; i++)
+		pthread_mutex_destroy(&params->forks[i]);
+	pthread_mutex_destroy(&params->print_mutex);
+	free(params->forks);
+	free(params->philosophers);
 }

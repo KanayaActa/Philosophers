@@ -1,36 +1,30 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   philo.c                                            :+:      :+:    :+:   */
+/*   start_simulation.c                                 :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: miwasa <miwasa@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/12/04 22:05:56 by miwasa            #+#    #+#             */
-/*   Updated: 2024/12/05 12:27:01 by miwasa           ###   ########.fr       */
+/*   Created: 2024/12/05 12:38:09 by miwasa            #+#    #+#             */
+/*   Updated: 2024/12/05 12:38:36 by miwasa           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "philo.h"
 
-int	philo(int argc, char **argv)
+int	start_simulation(t_params *params)
 {
-	t_params	params;
+	int	i;
 
-	if (parse_arguments(argc, argv, &params) != 0)
+	params->start_time = get_timestamp();
+	for (i = 0; i < params->number_of_philosophers; i++)
 	{
-		printf("Invalid arguments\n");
-		return (1);
+		if (pthread_create(&params->philosophers[i].thread, NULL, philosopher_routine, &params->philosophers[i]) != 0)
+			return (1);
+		usleep(100);
 	}
-	if (init_simulation(&params) != 0)
-	{
-		printf("Failed to initialize simulation\n");
-		return (1);
-	}
-	if (start_simulation(&params) != 0)
-	{
-		printf("Failed to start simulation\n");
-		return (1);
-	}
-	cleanup(&params);
+	monitor_philosophers(params);
+	for (i = 0; i < params->number_of_philosophers; i++)
+		pthread_join(params->philosophers[i].thread, NULL);
 	return (0);
 }

@@ -1,36 +1,33 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   philo.c                                            :+:      :+:    :+:   */
+/*   philo_routine.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: miwasa <miwasa@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/12/04 22:05:56 by miwasa            #+#    #+#             */
-/*   Updated: 2024/12/05 12:27:01 by miwasa           ###   ########.fr       */
+/*   Created: 2024/12/05 12:16:31 by miwasa            #+#    #+#             */
+/*   Updated: 2024/12/05 12:19:23 by miwasa           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "philo.h"
 
-int	philo(int argc, char **argv)
+void	*philosopher_routine(void *arg)
 {
-	t_params	params;
+	t_philosopher	*philo;
+	t_params		*params;
 
-	if (parse_arguments(argc, argv, &params) != 0)
+	philo = (t_philosopher *)arg;
+	params = philo->params;
+	if (philo->id % 2 == 0)
+		usleep(1000);
+	while (!params->someone_died)
 	{
-		printf("Invalid arguments\n");
-		return (1);
+		philo->think(philo);
+		philo->take_forks(philo);
+		philo->eat(philo);
+		philo->put_forks(philo);
+		philo->sleep(philo);
 	}
-	if (init_simulation(&params) != 0)
-	{
-		printf("Failed to initialize simulation\n");
-		return (1);
-	}
-	if (start_simulation(&params) != 0)
-	{
-		printf("Failed to start simulation\n");
-		return (1);
-	}
-	cleanup(&params);
-	return (0);
+	return (NULL);
 }

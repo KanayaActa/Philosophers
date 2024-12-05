@@ -1,36 +1,30 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   philo.c                                            :+:      :+:    :+:   */
+/*   utils.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: miwasa <miwasa@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/12/04 22:05:56 by miwasa            #+#    #+#             */
-/*   Updated: 2024/12/05 12:27:01 by miwasa           ###   ########.fr       */
+/*   Created: 2024/12/05 11:46:50 by miwasa            #+#    #+#             */
+/*   Updated: 2024/12/05 12:32:27 by miwasa           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "philo.h"
 
-int	philo(int argc, char **argv)
+long long	get_timestamp(void)
 {
-	t_params	params;
+	struct timeval	tv;
 
-	if (parse_arguments(argc, argv, &params) != 0)
-	{
-		printf("Invalid arguments\n");
-		return (1);
-	}
-	if (init_simulation(&params) != 0)
-	{
-		printf("Failed to initialize simulation\n");
-		return (1);
-	}
-	if (start_simulation(&params) != 0)
-	{
-		printf("Failed to start simulation\n");
-		return (1);
-	}
-	cleanup(&params);
-	return (0);
+	gettimeofday(&tv, NULL);
+	return ((tv.tv_sec * 1000LL) + (tv.tv_usec / 1000LL));
+}
+
+void sleep_ms(int milliseconds)
+{
+	long long start_time;
+
+	start_time = get_timestamp();
+	while (get_timestamp() - start_time < milliseconds)
+		usleep(100);
 }
